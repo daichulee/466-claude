@@ -148,13 +148,15 @@ function computeLayoutSizes(colW) {
   const pad = 24;
   const titleH = 32;
   const innerW = colW - pad * 2;
-  const heroSize = innerW * 0.56;
-  // Skills column must total the same height as the hero square, with its
-  // own label reserved per skill (not shared with the next skill's slot).
+  // Match the on-site formation ratios: hero+skills take 2/3 of the
+  // formation height, mount+mount-skills the remaining 1/3 — so the
+  // mount box keeps roughly the same ~2.3:1 aspect ratio it has on
+  // screen instead of stretching thin across the whole card.
+  const heroSize = innerW * (2 / 3);
   const skillLabelH = 12;
   const skillGap = 6;
   const skillSize = (heroSize - skillLabelH * 2 - 8 - skillGap) / 2;
-  const mountRowH = 62;
+  const mountRowH = innerW / 3;
   const cellSize = (innerW - 30) / 4;
   return { pad, titleH, innerW, heroSize, skillSize, skillLabelH, skillGap, mountRowH, cellSize };
 }
