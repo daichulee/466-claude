@@ -1,0 +1,66 @@
+:root {
+  /* Surfaces */
+  --void: #0a0d13;
+  --bg: #0b0e14;
+  --panel: #141922;
+  --panel-2: #1a212c;
+  --panel-3: #1f2733;
+  --border: #262f3d;
+  --border-soft: #1c2431;
+
+  /* Text */
+  --text-primary: #e7e9ee;
+  --text-secondary: #a7afc0;
+  --text-muted: #6e7789;
+  --text-faint: #454d5d;
+
+  /* Accents */
+  --bronze: #c69a5c;
+  --bronze-dim: #8a6c3f;
+  --gold: #e8c77e;
+  --gold-soft: #f1dca5;
+  --rune-blue: #4a9edb;
+  --rune-blue-dim: #2c5e82;
+  --rune-blue-glow: rgba(74, 158, 219, 0.35);
+
+  /* Status */
+  --status-good: #6fb98f;
+  --status-warn: #d9a441;
+  --status-danger: #c05a5a;
+
+  /* Type */
+  --font-display: "Cinzel", "Georgia", serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", monospace;
+
+  /* Scale */
+  --fs-xs: 0.6875rem;
+  --fs-sm: 0.8125rem;
+  --fs-base: 0.9375rem;
+  --fs-md: 1.0625rem;
+  --fs-lg: 1.375rem;
+  --fs-xl: 1.875rem;
+  --fs-2xl: 2.5rem;
+
+  /* Space */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Layout */
+  --sidebar-w: 248px;
+  --topbar-h: 64px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+}

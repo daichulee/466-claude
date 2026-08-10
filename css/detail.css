@@ -1,0 +1,336 @@
+.detail-section {
+  margin-bottom: var(--sp-6);
+}
+.detail-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--sp-5);
+}
+.detail-p {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  line-height: 1.65;
+  max-width: 720px;
+}
+.detail-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-5);
+  align-items: start;
+}
+@media (max-width: 720px) {
+  .detail-grid-2 { grid-template-columns: 1fr; }
+}
+.detail-grid-2-stretch { align-items: stretch; }
+.detail-grid-2-stretch .detail-section { display: flex; flex-direction: column; }
+.detail-grid-2-stretch .detail-section > *:last-child { flex: 1; }
+
+/* ---------- Meta strip (tier / difficulty / status) ---------- */
+.meta-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  margin-bottom: var(--sp-6);
+  padding: var(--sp-4) var(--sp-5);
+}
+.meta-strip-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+.meta-strip-item .k {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.meta-strip-item .v {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.meta-strip-divider {
+  width: 1px;
+  align-self: stretch;
+  background: var(--border-soft);
+}
+@media (max-width: 560px) {
+  .meta-strip { flex-wrap: wrap; gap: var(--sp-3); }
+  .meta-strip-divider { display: none; }
+  .meta-strip-item { flex: 1 1 40%; }
+}
+
+.section-subtitle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: var(--sp-4) 0 var(--sp-2);
+}
+
+/* ---------- Quick Battle Steps ---------- */
+.battle-steps-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+.battle-step-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+.battle-step-num {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--panel-2);
+  border: 1px solid var(--bronze-dim);
+  color: var(--gold-soft);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Intel Summary ---------- */
+.intel-list {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 4px var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.intel-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+.intel-row:last-child { border-bottom: none; }
+.intel-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.intel-value {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ---------- Tactical Objective ---------- */
+.tactical-subgrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-3);
+}
+@media (max-width: 880px) {
+  .tactical-subgrid { grid-template-columns: 1fr; }
+}
+.tactical-subcard {
+  background: var(--panel-2);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r-md);
+  padding: var(--sp-3) var(--sp-4);
+}
+.tactical-subcard-icon { width: 18px; height: 18px; color: var(--bronze); margin-bottom: 10px; }
+.tactical-subcard-icon svg { width: 100%; height: 100%; }
+.tactical-subcard-icon.warn { color: var(--status-danger); }
+.tactical-subcard-title { font-size: 13.5px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+.tactical-subcard-text { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+.mistakes-list { list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 8px; }
+.mistakes-list li {
+  position: relative;
+  padding-left: 14px;
+}
+.mistakes-list li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--status-danger);
+}
+
+/* ---------- Hero cards ---------- */
+.hero-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+}
+@media (max-width: 720px) {
+  .hero-card-grid { grid-template-columns: 1fr; }
+}
+.hero-card-v2 {
+  display: flex;
+  gap: var(--sp-3);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: var(--sp-4);
+}
+.hero-avatar {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: var(--r-md);
+  border: 1px solid var(--bronze-dim);
+  background:
+    radial-gradient(circle at 50% 40%, rgba(232,199,126,0.35), rgba(198,154,92,0.08) 60%, transparent 75%),
+    var(--panel-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--gold-soft);
+}
+.hero-card-body { flex: 1; min-width: 0; }
+.hero-tag-row { display: flex; gap: 6px; margin-bottom: 6px; }
+.hero-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--panel-2);
+  border: 1px solid var(--border-soft);
+  color: var(--text-secondary);
+}
+.hero-tag-rarity { color: var(--gold); border-color: var(--bronze-dim); background: rgba(198,154,92,0.1); }
+.hero-name { font-family: var(--font-display); font-size: 16px; color: var(--text-primary); margin-bottom: 2px; }
+.hero-commander-label { font-size: 11px; color: var(--rune-blue); font-weight: 600; margin-bottom: 6px; }
+.hero-note { font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 10px; }
+.hero-skills { display: flex; flex-direction: column; gap: 5px; border-top: 1px solid var(--border-soft); padding-top: 8px; }
+.hero-skill-row { display: flex; align-items: center; gap: 10px; font-size: 12px; flex-wrap: wrap; }
+.hero-skill-name { color: var(--text-primary); font-weight: 600; }
+.hero-skill-note { color: var(--text-muted); }
+
+/* Pros / Cons */
+.pros-list, .cons-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: var(--fs-sm);
+}
+.pros-list li {
+  color: var(--status-good);
+  background: rgba(111,185,143,0.07);
+  border: 1px solid rgba(111,185,143,0.18);
+  border-radius: var(--r-sm);
+  padding: 8px 10px;
+}
+.cons-list li {
+  color: var(--status-danger);
+  background: rgba(192,90,90,0.07);
+  border: 1px solid rgba(192,90,90,0.18);
+  border-radius: var(--r-sm);
+  padding: 8px 10px;
+}
+
+/* ---------- Mount — single unified container with skills inside ---------- */
+.mount-container {
+  background: linear-gradient(180deg, rgba(198,154,92,0.05), transparent 40%), var(--panel);
+  border: 1px solid var(--bronze-dim);
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+}
+.mount-badge-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+.mount-badge-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--panel-2);
+  border: 2px solid var(--bronze);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.mount-badge-icon svg { width: 24px; height: 24px; color: var(--gold); }
+.mount-badge-name { font-family: var(--font-display); font-size: 15px; color: var(--gold-soft); }
+.mount-badge-tags { display: flex; gap: 6px; margin-top: 6px; }
+.mount-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--panel-2);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.mount-tag-gold {
+  color: var(--gold);
+  border-color: var(--bronze-dim);
+  background: rgba(198,154,92,0.1);
+}
+.mount-divider {
+  height: 1px;
+  background: var(--border-soft);
+  margin: var(--sp-3) 0;
+}
+.mount-skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mount-skill-row { display: flex; align-items: center; gap: 10px; font-size: 12px; flex-wrap: wrap; }
+.dotline { width: 4px; height: 4px; border-radius: 50%; background: var(--rune-blue); flex-shrink: 0; }
+
+/* Equipment — 2x2 grid, distinct from mount container.
+   No border of its own: flex-centers the grid so the column
+   matches the taller Mount panel's height without double-nesting borders. */
+.equip-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+.equip-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.equip-slot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 12px;
+}
+.equip-slot-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--r-md);
+  background: var(--panel-2);
+  border: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.equip-slot-icon svg { width: 24px; height: 24px; color: var(--rune-blue); }
+.equip-slot-name { font-size: 12px; color: var(--text-secondary); }
