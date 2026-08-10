@@ -169,9 +169,6 @@ function renderReviewStep() {
     <div class="detail-panel">
       <p class="detail-p" style="max-width:none; margin-bottom:var(--sp-5);">${t("builder.reviewLede")}</p>
       <div class="export-row">
-        <button class="export-btn" id="export-build-btn">
-          ${ICONS.download}<span>${t("builder.exportBuild")}</span>
-        </button>
         <button class="export-btn" id="export-image-btn">
           ${ICONS.image}<span>${t("builder.exportImage")}</span>
         </button>
@@ -254,8 +251,6 @@ function bindBuilderEvents() {
     renderMarchBuilder();
   });
 
-  const exportBuildBtn = document.getElementById("export-build-btn");
-  if (exportBuildBtn) exportBuildBtn.addEventListener("click", exportBuildJSON);
   const exportImageBtn = document.getElementById("export-image-btn");
   if (exportImageBtn) exportImageBtn.addEventListener("click", exportShareImage);
 
