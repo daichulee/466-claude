@@ -13,6 +13,7 @@ function renderShell() {
   root.innerHTML = `
     <div class="app-shell">
       <aside class="sidebar">
+        <button class="sidebar-close-btn" id="sidebar-close-btn" aria-label="Close menu">${ICONS.close}</button>
         <a class="brand" href="#/home">
           <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
             <path d="M20 3 6 10v10c0 10 6 15.5 14 17 8-1.5 14-7 14-17V10L20 3Z" fill="#141922" stroke="#c69a5c" stroke-width="1.2"/>
@@ -52,8 +53,11 @@ function renderShell() {
         </div>
       </aside>
 
+      <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
       <div class="main-col">
         <header class="topbar">
+          <button class="hamburger-btn" id="hamburger-btn" aria-label="Open menu">${ICONS.menu}</button>
           <label class="global-search">
             ${ICONS.search}
             <input id="global-search-input" type="text" data-i18n-ph="search.placeholder" placeholder="${t("search.placeholder")}" autocomplete="off" />
@@ -116,6 +120,31 @@ function renderLangMenu() {
 }
 
 function bindShellEvents() {
+  const sidebarEl = document.querySelector(".sidebar");
+  const backdrop = document.getElementById("sidebar-backdrop");
+  const hamburgerBtn = document.getElementById("hamburger-btn");
+  const sidebarCloseBtn = document.getElementById("sidebar-close-btn");
+
+  const closeMobileSidebar = () => {
+    sidebarEl.classList.remove("mobile-open");
+    backdrop.classList.remove("visible");
+  };
+  const openMobileSidebar = () => {
+    sidebarEl.classList.add("mobile-open");
+    backdrop.classList.add("visible");
+  };
+
+  if (hamburgerBtn) hamburgerBtn.addEventListener("click", openMobileSidebar);
+  if (sidebarCloseBtn) sidebarCloseBtn.addEventListener("click", closeMobileSidebar);
+  if (backdrop) backdrop.addEventListener("click", closeMobileSidebar);
+  // Closing on nav click means the drawer doesn't linger open after the
+  // person picks where they're going — same pattern as most mobile menus.
+  if (sidebarEl) {
+    sidebarEl.addEventListener("click", (e) => {
+      if (e.target.closest("a.nav-item, a.brand")) closeMobileSidebar();
+    });
+  }
+
   const langSelect = document.getElementById("lang-select");
   const langBtn = document.getElementById("lang-pill-btn");
   langBtn.addEventListener("click", (e) => {
@@ -152,7 +181,7 @@ function renderSearchResults(query) {
   if (!q) return;
 
   const marchResults = MARCHES.filter((m) => {
-    const haystack = [m.title, m.category, ...m.recommendedHeroes].join(" ").toLowerCase();
+    const haystack = [tv(m.title), m.category, ...m.recommendedHeroes].join(" ").toLowerCase();
     return haystack.includes(q);
   });
   const lockedResults = LOCKED_MODULES.filter((m) => t(m.titleKey).toLowerCase().includes(q));
@@ -170,7 +199,7 @@ function renderSearchResults(query) {
   let html = "";
   marchResults.forEach((m) => {
     html += `<a href="#/marches/${m.id}" class="search-result-item" style="display:flex;justify-content:space-between;align-items:center;padding:9px 10px;border-radius:6px;font-size:13px;color:var(--text-primary);">
-      <span>${m.title}</span><span class="tag-pill tag-${m.category}">${m.category}</span>
+      <span>${tv(m.title)}</span><span class="tag-pill tag-${m.category}">${m.category}</span>
     </a>`;
   });
   lockedResults.forEach((m) => {

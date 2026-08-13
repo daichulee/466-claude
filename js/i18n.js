@@ -17,10 +17,8 @@ const STRINGS = {
   en: {
     "nav.home": "Home",
     "nav.marches": "March Compositions",
-    "module.heroDatabase": "Hero Database",
-    "module.kvkStrategies": "KVK Strategies",
-    "module.eventGuides": "Event Guides",
-    "module.academy": "Academy",
+    "module.eventTips": "Event Tips",
+    "module.tribeStrategies": "Tribe Strategies",
     "module.hallOfGlory": "Hall of Glory",
     "module.tribeChronicles": "Tribe Chronicles",
     "search.placeholder": "Search marches, heroes, tags…",
@@ -109,14 +107,16 @@ const STRINGS = {
     "builder.troopArchers": "Archers",
     "builder.troopPikemen": "Pikemen",
     "builder.troopGathering": "Gathering",
-  },
-  es: {
+    "gate.title": "Debuff archive locked",
+    "gate.body": "Enter the tribe passphrase to unlock debuff compositions for this session.",
+    "gate.placeholder": "Passphrase",
+    "gate.button": "Unlock",
+    "gate.error": "Wrong passphrase. Try again.",
+  },  es: {
     "nav.home": "Inicio",
     "nav.marches": "Composiciones de Marcha",
-    "module.heroDatabase": "Base de Héroes",
-    "module.kvkStrategies": "Estrategias KVK",
-    "module.eventGuides": "Guías de Eventos",
-    "module.academy": "Academia",
+    "module.eventTips": "Tips de Eventos",
+    "module.tribeStrategies": "Estrategias de la Tribu",
     "module.hallOfGlory": "Salón de la Gloria",
     "module.tribeChronicles": "Crónicas de la Tribu",
     "search.placeholder": "Buscar marchas, héroes, etiquetas…",
@@ -205,14 +205,17 @@ const STRINGS = {
     "builder.troopArchers": "Arqueros",
     "builder.troopPikemen": "Piqueros",
     "builder.troopGathering": "Recolección",
+    "gate.title": "Archivo debuff sellado",
+    "gate.body": "Ingresá la contraseña de la tribu para desbloquear las composiciones debuff en esta sesión.",
+    "gate.placeholder": "Contraseña",
+    "gate.button": "Desbloquear",
+    "gate.error": "Contraseña incorrecta. Probá de nuevo.",
   },
   pt: {
     "nav.home": "Início",
     "nav.marches": "Composições de Marcha",
-    "module.heroDatabase": "Banco de Heróis",
-    "module.kvkStrategies": "Estratégias KVK",
-    "module.eventGuides": "Guias de Eventos",
-    "module.academy": "Academia",
+    "module.eventTips": "Dicas de Eventos",
+    "module.tribeStrategies": "Estratégias da Tribo",
     "module.hallOfGlory": "Salão da Glória",
     "module.tribeChronicles": "Crônicas da Tribo",
     "search.placeholder": "Buscar marchas, heróis, tags…",
@@ -301,14 +304,17 @@ const STRINGS = {
     "builder.troopArchers": "Arqueiros",
     "builder.troopPikemen": "Lanceiros",
     "builder.troopGathering": "Coleta",
+    "gate.title": "Arquivo de debuff bloqueado",
+    "gate.body": "Digite a senha da tribo para desbloquear as composições de debuff nesta sessão.",
+    "gate.placeholder": "Senha",
+    "gate.button": "Desbloquear",
+    "gate.error": "Senha incorreta. Tente novamente.",
   },
   fr: {
     "nav.home": "Accueil",
     "nav.marches": "Compositions de Marche",
-    "module.heroDatabase": "Base de Héros",
-    "module.kvkStrategies": "Stratégies KVK",
-    "module.eventGuides": "Guides d'Événements",
-    "module.academy": "Académie",
+    "module.eventTips": "Astuces d'Événements",
+    "module.tribeStrategies": "Stratégies de la Tribu",
     "module.hallOfGlory": "Panthéon",
     "module.tribeChronicles": "Chroniques de la Tribu",
     "search.placeholder": "Rechercher marches, héros, tags…",
@@ -397,14 +403,17 @@ const STRINGS = {
     "builder.troopArchers": "Archers",
     "builder.troopPikemen": "Piquiers",
     "builder.troopGathering": "Récolte",
+    "gate.title": "Archives de debuff verrouillées",
+    "gate.body": "Entrez le mot de passe de la tribu pour déverrouiller les compositions debuff pour cette session.",
+    "gate.placeholder": "Mot de passe",
+    "gate.button": "Déverrouiller",
+    "gate.error": "Mot de passe incorrect. Réessayez.",
   },
   zh: {
     "nav.home": "主页",
     "nav.marches": "行军编组",
-    "module.heroDatabase": "英雄数据库",
-    "module.kvkStrategies": "KVK 策略",
-    "module.eventGuides": "活动指南",
-    "module.academy": "学院",
+    "module.eventTips": "活动攻略",
+    "module.tribeStrategies": "部落策略",
     "module.hallOfGlory": "荣耀殿堂",
     "module.tribeChronicles": "部落编年史",
     "search.placeholder": "搜索行军、英雄、标签…",
@@ -493,10 +502,28 @@ const STRINGS = {
     "builder.troopArchers": "弓兵",
     "builder.troopPikemen": "枪兵",
     "builder.troopGathering": "采集",
+    "gate.title": "减益档案已锁定",
+    "gate.body": "输入部落密码以解锁本次会话的减益编组内容。",
+    "gate.placeholder": "密码",
+    "gate.button": "解锁",
+    "gate.error": "密码错误，请重试。",
   },
 };
 
 function t(key) {
   const lang = window.__lang || "en";
   return (STRINGS[lang] && STRINGS[lang][key]) || STRINGS.en[key] || key;
+}
+
+/**
+ * Resolve a translatable content VALUE (as opposed to a UI string key).
+ * March narrative fields (objective, pros, cons, etc.) are stored as
+ * { en, es, pt, fr, zh } objects via the L() helper in data.js — this
+ * picks the active language with an English fallback. Plain strings
+ * pass through untouched, so it's always safe to call.
+ */
+function tv(field) {
+  if (field == null) return field;
+  if (typeof field === "string") return field;
+  return field[window.__lang] || field.en || "";
 }

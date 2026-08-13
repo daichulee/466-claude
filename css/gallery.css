@@ -1,0 +1,88 @@
+/* ============================================================
+   V466 RUNESTONE — MEDIA GALLERY
+   Strategy screenshots / gifs on the march detail page.
+   Renders nothing if a march has no media. With exactly one
+   item, it's just a framed image — no arrows, no dots. Arrows
+   and dots only appear once there are 2+ items to page through.
+   ============================================================ */
+
+.media-gallery {
+  margin-bottom: var(--sp-6);
+}
+
+.media-gallery-viewport {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--panel);
+  aspect-ratio: 16 / 9;
+}
+
+.media-gallery-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.3s var(--ease);
+}
+
+.media-gallery-slide {
+  flex: 0 0 100%;
+  height: 100%;
+}
+.media-gallery-slide img,
+.media-gallery-slide video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.media-gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(11, 14, 20, 0.68);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+  transition: background 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+.media-gallery-arrow:hover {
+  background: rgba(11, 14, 20, 0.9);
+  border-color: var(--bronze-dim);
+}
+.media-gallery-arrow svg { width: 16px; height: 16px; }
+.media-gallery-prev { left: var(--sp-3); }
+.media-gallery-prev svg { transform: rotate(180deg); }
+.media-gallery-next { right: var(--sp-3); }
+
+.media-gallery-dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-top: var(--sp-3);
+}
+.media-gallery-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border);
+  border: none;
+  transition: background 0.15s var(--ease), transform 0.15s var(--ease);
+}
+.media-gallery-dot:hover { background: var(--text-muted); }
+.media-gallery-dot.active {
+  background: var(--bronze);
+  transform: scale(1.25);
+}
+
+@media (max-width: 560px) {
+  .media-gallery-arrow { width: 32px; height: 32px; }
+  .media-gallery-arrow svg { width: 14px; height: 14px; }
+}

@@ -24,8 +24,8 @@ function marchCardHTML(m) {
         <span class="tag-pill tag-${m.category}">${t("filter." + m.category)}</span>
         <span class="status-pill ${s.cls}">${s.label}</span>
       </div>
-      <h3>${m.title}</h3>
-      <p class="summary">${m.summary}</p>
+      <h3>${tv(m.title)}</h3>
+      <p class="summary">${tv(m.summary)}</p>
       <div class="hero-chip-row">
         ${m.recommendedHeroes.map((h) => `<span class="hero-chip">${h}</span>`).join("")}
       </div>
@@ -140,6 +140,57 @@ function renderMarchGrid() {
   grid.innerHTML = filtered.map(marchCardHTML).join("");
 }
 
+function mediaGalleryHTML(media) {
+  if (!media || media.length === 0) return "";
+  const multi = media.length > 1;
+  return `
+    <div class="media-gallery">
+      <div class="media-gallery-viewport">
+        <div class="media-gallery-track">
+          ${media.map((item) => `
+            <div class="media-gallery-slide">
+              ${item.type === "video"
+                ? `<video src="${item.src}" controls playsinline muted></video>`
+                : `<img src="${item.src}" alt="" loading="lazy" />`}
+            </div>
+          `).join("")}
+        </div>
+        ${multi ? `
+          <button class="media-gallery-arrow media-gallery-prev" aria-label="Previous">${ICONS.arrowRight}</button>
+          <button class="media-gallery-arrow media-gallery-next" aria-label="Next">${ICONS.arrowRight}</button>
+        ` : ""}
+      </div>
+      ${multi ? `
+        <div class="media-gallery-dots">
+          ${media.map((_, i) => `<button class="media-gallery-dot ${i === 0 ? "active" : ""}" data-slide="${i}" aria-label="Go to slide ${i + 1}"></button>`).join("")}
+        </div>
+      ` : ""}
+    </div>
+  `;
+}
+
+function bindMediaGallery() {
+  const gallery = document.querySelector(".media-gallery");
+  if (!gallery) return;
+  const track = gallery.querySelector(".media-gallery-track");
+  const dots = gallery.querySelectorAll(".media-gallery-dot");
+  const slideCount = gallery.querySelectorAll(".media-gallery-slide").length;
+  if (slideCount <= 1) return;
+
+  let index = 0;
+  const goTo = (i) => {
+    index = (i + slideCount) % slideCount;
+    track.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach((d, di) => d.classList.toggle("active", di === index));
+  };
+
+  const prevBtn = gallery.querySelector(".media-gallery-prev");
+  const nextBtn = gallery.querySelector(".media-gallery-next");
+  if (prevBtn) prevBtn.addEventListener("click", () => goTo(index - 1));
+  if (nextBtn) nextBtn.addEventListener("click", () => goTo(index + 1));
+  dots.forEach((d) => d.addEventListener("click", () => goTo(Number(d.dataset.slide))));
+}
+
 /* ---------------- MARCH DETAIL ---------------- */
 function detailSection(title, iconSvg, bodyHTML) {
   return `
@@ -172,7 +223,7 @@ function heroCardHTML(h) {
         </div>
         <div class="hero-name">${h.name}</div>
         <div class="hero-commander-label">${commanderLabel}</div>
-        <div class="hero-note">${h.note}</div>
+        <div class="hero-note">${tv(h.note)}</div>
         <div class="hero-skills">
           ${h.skills.map((sk) => `
             <div class="hero-skill-row">
@@ -198,13 +249,15 @@ function renderMarchDetail(id) {
 
   const d = m.detail;
   const s = statusMeta(m.status);
+  const gated = m.category === "debuff" && !isDebuffUnlocked();
 
   view.innerHTML = `
+    <div class="${gated ? "gated-content" : ""}">
     <div class="page-header" style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:var(--sp-4);">
       <div>
         <div class="eyebrow"><a href="#/marches" style="color:var(--text-muted);">${t("marches.title")}</a> / ${t("filter." + m.category)}</div>
-        <h1>${m.title}</h1>
-        <p class="lede">${m.summary}</p>
+        <h1>${tv(m.title)}</h1>
+        <p class="lede">${tv(m.summary)}</p>
       </div>
       <div style="display:flex; gap:8px; align-items:center; flex-shrink:0;">
         <span class="tag-pill tag-${m.category}">${t("filter." + m.category)}</span>
@@ -235,7 +288,7 @@ function renderMarchDetail(id) {
           ${d.quickSteps.map((step, i) => `
             <div class="battle-step-row">
               <span class="battle-step-num">${i + 1}</span>
-              <span>${step}</span>
+              <span>${tv(step)}</span>
             </div>
           `).join("")}
         </div>
@@ -244,7 +297,7 @@ function renderMarchDetail(id) {
         <div class="intel-list">
           <div class="intel-row">
             <span class="intel-label">${t("detail.useCase")}</span>
-            <span class="intel-value">${d.useCase}</span>
+            <span class="intel-value">${tv(d.useCase)}</span>
           </div>
           <div class="intel-row">
             <span class="intel-label">${t("meta.tier")}</span>
@@ -260,23 +313,23 @@ function renderMarchDetail(id) {
 
     ${detailSection(t("section.tacticalObjective"), ICONS.sparkle, `
       <div class="detail-panel">
-        <p class="detail-p" style="margin-bottom:var(--sp-4); max-width:none;">${d.objective}</p>
+        <p class="detail-p" style="margin-bottom:var(--sp-4); max-width:none;">${tv(d.objective)}</p>
         <div class="tactical-subgrid">
           <div class="tactical-subcard">
             <div class="tactical-subcard-icon">${ICONS.diamond}</div>
             <div class="tactical-subcard-title">${t("section.whenToUse")}</div>
-            <div class="tactical-subcard-text">${d.whenToUse}</div>
+            <div class="tactical-subcard-text">${tv(d.whenToUse)}</div>
           </div>
           <div class="tactical-subcard">
             <div class="tactical-subcard-icon">${ICONS.diamond}</div>
             <div class="tactical-subcard-title">${t("section.counters")}</div>
-            <div class="tactical-subcard-text">${d.counters}</div>
+            <div class="tactical-subcard-text">${tv(d.counters)}</div>
           </div>
           <div class="tactical-subcard">
             <div class="tactical-subcard-icon warn">${ICONS.warning}</div>
             <div class="tactical-subcard-title">${t("section.commonMistakes")}</div>
             <div class="tactical-subcard-text">
-              <ul class="mistakes-list">${d.commonMistakes.map((x) => `<li>${x}</li>`).join("")}</ul>
+              <ul class="mistakes-list">${d.commonMistakes.map((x) => `<li>${tv(x)}</li>`).join("")}</ul>
             </div>
           </div>
         </div>
@@ -290,17 +343,17 @@ function renderMarchDetail(id) {
     `)}
 
     ${detailSection(t("section.troopComposition"), ICONS.target, `
-      <div class="detail-panel"><p class="detail-p" style="max-width:none;">${d.troopComposition}</p></div>
+      <div class="detail-panel"><p class="detail-p" style="max-width:none;">${tv(d.troopComposition)}</p></div>
     `)}
 
     <div class="divider-rune"></div>
 
     <div class="detail-grid-2">
       ${detailSection(t("section.pros"), ICONS.scaleBalance, `
-        <ul class="pros-list">${d.pros.map((x) => `<li>+ ${x}</li>`).join("")}</ul>
+        <ul class="pros-list">${d.pros.map((x) => `<li>+ ${tv(x)}</li>`).join("")}</ul>
       `)}
       ${detailSection(t("section.cons"), ICONS.scaleBalance, `
-        <ul class="cons-list">${d.cons.map((x) => `<li>− ${x}</li>`).join("")}</ul>
+        <ul class="cons-list">${d.cons.map((x) => `<li>− ${tv(x)}</li>`).join("")}</ul>
       `)}
     </div>
 
@@ -355,8 +408,17 @@ function renderMarchDetail(id) {
 
     ${detailSection(t("section.otherCompositions"), ICONS.scroll, `
       <div class="grid-cards" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));">
-        ${MARCHES.filter((x) => x.id !== m.id && d.related.includes(x.title)).map(marchCardHTML).join("")}
+        ${MARCHES.filter((x) => x.id !== m.id && d.related.includes(x.id)).map(marchCardHTML).join("")}
       </div>
     `)}
+
+    ${m.media && m.media.length ? `<div class="divider-rune"></div>${mediaGalleryHTML(m.media)}` : ""}
+    </div>
+    ${gated ? passwordGateOverlayHTML() : ""}
   `;
+
+  if (gated) {
+    bindPasswordGate(() => renderMarchDetail(id));
+  }
+  bindMediaGallery();
 }

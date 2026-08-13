@@ -153,6 +153,46 @@
   box-shadow: 0 0 6px var(--status-good);
 }
 
+/* ---------- MOBILE SIDEBAR DRAWER (hidden/inert on desktop) ---------- */
+.sidebar-close-btn {
+  display: none;
+  align-self: flex-end;
+  margin: 0 var(--sp-4) var(--sp-2) 0;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--r-sm);
+  color: var(--text-muted);
+  align-items: center;
+  justify-content: center;
+}
+.sidebar-close-btn svg { width: 16px; height: 16px; }
+.sidebar-close-btn:hover { background: var(--panel-2); color: var(--text-primary); }
+
+.hamburger-btn {
+  display: none;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text-secondary);
+}
+.hamburger-btn svg { width: 17px; height: 17px; }
+
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 7, 11, 0.65);
+  z-index: 140;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.sidebar-backdrop.visible { display: block; opacity: 1; }
+
 /* ---------- TOPBAR ---------- */
 .topbar {
   height: var(--topbar-h);
@@ -294,6 +334,32 @@
 
 @media (max-width: 880px) {
   .app-shell { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
+
+  .hamburger-btn { display: flex; }
+  .sidebar-close-btn { display: flex; }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(280px, 82vw);
+    height: 100vh;
+    z-index: 150;
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+    box-shadow: 16px 0 48px rgba(0,0,0,0.5);
+  }
+  .sidebar.mobile-open { transform: translateX(0); }
+
   .global-search { max-width: none; }
+  .topbar { padding: 0 var(--sp-4); gap: var(--sp-3); }
+  .view { padding: var(--sp-4); }
+
+  .grid-cards { grid-template-columns: 1fr; }
+  .grid-locked { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+}
+
+@media (max-width: 480px) {
+  .page-header h1 { font-size: var(--fs-xl); }
+  .grid-locked { grid-template-columns: 1fr 1fr; }
 }

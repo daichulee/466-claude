@@ -246,6 +246,15 @@
   flex-wrap: wrap;
   margin-bottom: var(--sp-5);
 }
+@media (max-width: 640px) {
+  .filter-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: thin;
+  }
+  .filter-chip { flex-shrink: 0; }
+}
 .filter-chip {
   font-size: var(--fs-xs);
   font-weight: 500;

@@ -90,17 +90,20 @@
 }
 .library-item.selected .asset-thumb { outline: 2px solid var(--rune-blue); outline-offset: 2px; }
 
-/* ---------------- Preview row ---------------- */
+/* ---------------- Preview row — fills the full available width;
+   each commander gets more of the growth than the (less important)
+   equipment column, but all three stretch to fill the row. ---------------- */
 .builder-preview-row {
-  display: grid;
-  grid-template-columns: minmax(240px, 1fr) minmax(240px, 1fr) 152px;
+  display: flex;
   gap: var(--sp-4);
   margin-bottom: var(--sp-6);
   align-items: stretch;
+  flex-wrap: wrap;
 }
 .builder-library-col { width: 100%; }
 
 .commander-block {
+  flex: 2 1 260px;
   min-width: 0;
   background: var(--panel);
   border: 1px solid var(--border);
@@ -120,52 +123,58 @@
 }
 .commander-block-header svg { width: 14px; height: 14px; color: var(--bronze); }
 
-/* Formation grid: Hero+Skills on top (2 height units), Mount+MountSkills
-   below (1 height unit) — the whole thing keeps a square footprint,
-   like a tight tier-list / formation-builder tile set. */
+/* Formation: Hero+Skills row on top, Mount+MountSkills row below.
+   Every square element carries its own real aspect-ratio (1:1),
+   and Mount carries its own horizontal ratio (2.3:1) — they never
+   deform, no matter how wide the commander block grows. Rows use
+   align-items:flex-start so children keep their own ratio-driven
+   height instead of being stretched to match their row. */
 .cmdr-formation {
-  aspect-ratio: 1;
-  display: grid;
-  grid-template-rows: 2fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 4px;
   flex: 1;
 }
 .cmdr-row-top, .cmdr-row-bottom {
   display: flex;
+  align-items: flex-start;
   gap: 4px;
-  min-height: 0;
   min-width: 0;
 }
-.cmdr-hero-slot { flex: 2; }
+.cmdr-hero-slot { flex: 2 1 0; aspect-ratio: 1; }
 .cmdr-skills-col {
-  flex: 1;
+  flex: 1 1 0;
   display: flex;
   flex-direction: column;
   gap: 4px;
   min-width: 0;
 }
-.cmdr-skill-slot { flex: 1; min-height: 0; }
+.cmdr-skill-slot { aspect-ratio: 1; width: 100%; }
 .cmdr-mountskills-col {
-  flex: 2;
+  flex: 1 1 0;
   display: flex;
   flex-direction: column;
   gap: 4px;
   min-width: 0;
 }
-.cmdr-mountskill-slot { flex: 1; min-height: 0; }
-.cmdr-mount-slot { flex: 7; }
+.cmdr-mountskill-slot { aspect-ratio: 1; width: 100%; }
+.cmdr-mount-slot { flex: 5 1 0; aspect-ratio: 2.3; }
 
 @media (max-width: 880px) {
-  .builder-preview-row { grid-template-columns: 1fr; }
-  .equip-column { flex-direction: row; }
+  .builder-preview-row { flex-direction: column; }
+  .commander-block { flex-basis: auto; }
+  .equip-column { flex-direction: row; flex-basis: auto; }
   .equip-2x2-block { flex: 1; }
 }
 
-/* ---------------- Equipment column — two stacked 2x2 sets,
-   compact and to the side (third tier of importance). Both blocks
-   flex to fill the column's stretched height, matching the
-   commander squares next to them at any screen width. ---------------- */
+/* ---------------- Equipment column — two stacked 2x2 sets, the
+   third tier of importance: fixed, modest width (it does NOT grow
+   like the commanders) so its squares stay small and the column's
+   natural height never becomes the tallest one in the row — that
+   was exactly what forced the commander blocks to stretch and show
+   dead space below their own content. ---------------- */
 .equip-column {
+  flex: 0 1 220px;
   display: flex;
   flex-direction: column;
   gap: var(--sp-3);
@@ -175,6 +184,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   background: var(--panel);
   border: 1px solid var(--border-soft);
   border-radius: var(--r-md);
@@ -189,12 +199,12 @@
   margin-bottom: 8px;
 }
 .equip-2x2-grid {
-  flex: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 6px;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
+  gap: 8px;
 }
+.cmdr-equip-slot { aspect-ratio: 1; width: 100%; max-width: 92px; }
 
 /* ---------------- Slots (shared base) ---------------- */
 .b-slot {
