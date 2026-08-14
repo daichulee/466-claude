@@ -68,10 +68,31 @@ function renderHome() {
   const debuffMarches = MARCHES.filter((m) => m.category === "debuff");
 
   view.innerHTML = `
-    <div class="page-header">
-      <div class="eyebrow">${t("home.eyebrow")}</div>
-      <h1>${t("home.title")}</h1>
-      <p class="lede">${t("home.lede")}</p>
+    <div class="home-hero">
+      <div class="home-hero-glow"></div>
+      <div class="home-hero-content">
+        <div class="eyebrow">${t("home.eyebrow")}</div>
+        <h1>${t("home.title")}</h1>
+        <p class="lede">${t("home.lede")}</p>
+      </div>
+      <div class="home-stat-row">
+        <div class="home-stat-tile">
+          ${ICONS.trophy}
+          <div><div class="home-stat-value">5</div><div class="home-stat-label">${t("home.statKvkWon")}</div></div>
+        </div>
+        <div class="home-stat-tile">
+          ${ICONS.swords}
+          <div><div class="home-stat-value">Top 1</div><div class="home-stat-label">${t("home.statHatedKingdoms")}</div></div>
+        </div>
+        <div class="home-stat-tile">
+          ${ICONS.gem}
+          <div><div class="home-stat-value">500K</div><div class="home-stat-label">${t("home.statCrystalsStolen")}</div></div>
+        </div>
+        <a href="#/marches/create" class="home-stat-tile home-stat-cta">
+          ${ICONS.plus}
+          <div><div class="home-stat-value">${t("filter.createMarch")}</div><div class="home-stat-label">${t("home.ctaSubtitle")}</div></div>
+        </a>
+      </div>
     </div>
 
     <section>
@@ -404,6 +425,8 @@ function renderMarchDetail(id) {
       `)}
     </div>
 
+    ${m.media && m.media.length ? `<div class="divider-rune"></div>${mediaGalleryHTML(m.media)}` : ""}
+
     <div class="divider-rune"></div>
 
     ${detailSection(t("section.otherCompositions"), ICONS.scroll, `
@@ -411,8 +434,6 @@ function renderMarchDetail(id) {
         ${MARCHES.filter((x) => x.id !== m.id && d.related.includes(x.id)).map(marchCardHTML).join("")}
       </div>
     `)}
-
-    ${m.media && m.media.length ? `<div class="divider-rune"></div>${mediaGalleryHTML(m.media)}` : ""}
     </div>
     ${gated ? passwordGateOverlayHTML() : ""}
   `;

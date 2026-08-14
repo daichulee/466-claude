@@ -15,9 +15,9 @@ function renderShell() {
       <aside class="sidebar">
         <button class="sidebar-close-btn" id="sidebar-close-btn" aria-label="Close menu">${ICONS.close}</button>
         <a class="brand" href="#/home">
-          <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
-            <path d="M20 3 6 10v10c0 10 6 15.5 14 17 8-1.5 14-7 14-17V10L20 3Z" fill="#141922" stroke="#c69a5c" stroke-width="1.2"/>
-            <path d="M20 10v20M14 15l6-5 6 5M14 25l6 5 6-5" stroke="#4a9edb" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg class="brand-mark" viewBox="17 17 66 66" fill="none">
+            <path d="M71.2,28.8 L28.8,28.8 L28.8,71.2 L71.2,71.2 Z" stroke="#e8c77e" stroke-width="4.2" stroke-linejoin="round"/>
+            <path d="M80,50 L50,20 L20,50 L50,80 Z" stroke="#e8c77e" stroke-width="4.2" stroke-linejoin="round"/>
           </svg>
           <div class="brand-text">
             <div class="brand-title">Runestone</div>

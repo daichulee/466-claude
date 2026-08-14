@@ -160,13 +160,6 @@
 .cmdr-mountskill-slot { aspect-ratio: 1; width: 100%; }
 .cmdr-mount-slot { flex: 5 1 0; aspect-ratio: 2.3; }
 
-@media (max-width: 880px) {
-  .builder-preview-row { flex-direction: column; }
-  .commander-block { flex-basis: auto; }
-  .equip-column { flex-direction: row; flex-basis: auto; }
-  .equip-2x2-block { flex: 1; }
-}
-
 /* ---------------- Equipment column — two stacked 2x2 sets, the
    third tier of importance: fixed, modest width (it does NOT grow
    like the commanders) so its squares stay small and the column's
@@ -305,3 +298,17 @@
 }
 .export-btn svg { width: 16px; height: 16px; }
 .export-btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+
+/* ---------------- Mobile ----------------
+   Kept at the very end of the file on purpose: this always has to
+   win over the base rules above (.commander-block, .equip-column,
+   etc.) regardless of where those are declared. Having it earlier
+   in the file previously let a later same-specificity base rule
+   silently cancel it out — that was the bug behind the overlapping
+   cards on mobile. */
+@media (max-width: 880px) {
+  .builder-preview-row { flex-direction: column; }
+  .commander-block { flex: none; width: 100%; }
+  .equip-column { flex: none; width: 100%; flex-direction: row; }
+  .equip-2x2-block { flex: 1; }
+}
