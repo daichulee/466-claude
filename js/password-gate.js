@@ -40,7 +40,10 @@ function passwordGateOverlayHTML() {
         <div class="gate-modal-icon">${ICONS.lock}</div>
         <h3 class="gate-modal-title">${t("gate.title")}</h3>
         <p class="gate-modal-body">${t("gate.body")}</p>
-        <input type="password" class="gate-modal-input" id="gate-password-input" placeholder="${t("gate.placeholder")}" autocomplete="off" />
+        <div class="gate-input-row">
+          <input type="password" class="gate-modal-input" id="gate-password-input" placeholder="${t("gate.placeholder")}" autocomplete="off" />
+          <button type="button" class="gate-input-toggle" id="gate-toggle-visibility" aria-label="${t("gate.showPassword")}">${ICONS.eye}</button>
+        </div>
         <div class="gate-modal-error" id="gate-modal-error" style="display:none;">${t("gate.error")}</div>
         <button class="gate-modal-button" id="gate-unlock-btn">${t("gate.button")}</button>
       </div>
@@ -52,7 +55,18 @@ function bindPasswordGate(onUnlock) {
   const input = document.getElementById("gate-password-input");
   const btn = document.getElementById("gate-unlock-btn");
   const errorEl = document.getElementById("gate-modal-error");
+  const toggleBtn = document.getElementById("gate-toggle-visibility");
   if (!input || !btn) return;
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      const showing = input.type === "text";
+      input.type = showing ? "password" : "text";
+      toggleBtn.innerHTML = showing ? ICONS.eye : ICONS.eyeOff;
+      toggleBtn.setAttribute("aria-label", showing ? t("gate.showPassword") : t("gate.hidePassword"));
+      input.focus();
+    });
+  }
 
   const attempt = () => {
     if (tryUnlockDebuff(input.value)) {

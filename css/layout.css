@@ -419,6 +419,21 @@
   gap: var(--sp-4);
 }
 
+.locked-module-group { margin-bottom: var(--sp-5); }
+.locked-module-group:last-child { margin-bottom: 0; }
+
+.locked-module-title {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: var(--sp-3);
+}
+.locked-module-title svg { width: 14px; height: 14px; color: var(--bronze); }
+
 .grid-locked {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));

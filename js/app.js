@@ -15,9 +15,12 @@ function renderShell() {
       <aside class="sidebar">
         <button class="sidebar-close-btn" id="sidebar-close-btn" aria-label="Close menu">${ICONS.close}</button>
         <a class="brand" href="#/home">
-          <svg class="brand-mark" viewBox="17 17 66 66" fill="none">
-            <path d="M71.2,28.8 L28.8,28.8 L28.8,71.2 L71.2,71.2 Z" stroke="#e8c77e" stroke-width="4.2" stroke-linejoin="round"/>
-            <path d="M80,50 L50,20 L20,50 L50,80 Z" stroke="#e8c77e" stroke-width="4.2" stroke-linejoin="round"/>
+          <svg class="brand-mark" viewBox="18 8 64 84" fill="none">
+            <g stroke="#e8c77e" stroke-width="7" stroke-linecap="round">
+              <path d="M50,15 L50,85"/>
+              <path d="M50,50 L25,15"/>
+              <path d="M50,50 L75,15"/>
+            </g>
           </svg>
           <div class="brand-text">
             <div class="brand-title">Runestone</div>
@@ -86,16 +89,30 @@ function renderNav() {
   const nav = document.getElementById("nav-group");
   const route = currentRoute();
   const homeActive = route.name === "home";
-  const marchesActive = route.name === "marches" || route.name === "march-detail" || route.name === "march-builder";
+  const marchesActive = route.name === "marches" || route.name === "march-detail";
+  const builderActive = route.name === "march-builder";
+  const referenceActive = route.name === "field-reference";
 
   let html = `
     <a class="nav-item ${homeActive ? "active" : ""}" href="#/home">
       <span class="nav-icon">${ICONS.home}</span>
       <span data-i18n="nav.home">${t("nav.home")}</span>
     </a>
+  `;
+
+  // The public site has no debuff content at all — Home is the only page.
+  html += `
     <a class="nav-item ${marchesActive ? "active" : ""}" href="#/marches">
       <span class="nav-icon">${ICONS.marches}</span>
       <span data-i18n="nav.marches">${t("nav.marches")}</span>
+    </a>
+    <a class="nav-item ${referenceActive ? "active" : ""}" href="#/reference">
+      <span class="nav-icon">${ICONS.book}</span>
+      <span data-i18n="nav.fieldReference">${t("nav.fieldReference")}</span>
+    </a>
+    <a class="nav-item ${builderActive ? "active" : ""}" href="#/marches/create">
+      <span class="nav-icon">${ICONS.plus}</span>
+      <span data-i18n="nav.createMarch">${t("nav.createMarch")}</span>
     </a>
   `;
 
@@ -163,14 +180,16 @@ function bindShellEvents() {
   });
 
   const searchInput = document.getElementById("global-search-input");
-  searchInput.addEventListener("input", (e) => renderSearchResults(e.target.value));
-  searchInput.addEventListener("blur", () => setTimeout(() => renderSearchResults(""), 150));
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "/" && document.activeElement !== searchInput) {
-      e.preventDefault();
-      searchInput.focus();
-    }
-  });
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => renderSearchResults(e.target.value));
+    searchInput.addEventListener("blur", () => setTimeout(() => renderSearchResults(""), 150));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "/" && document.activeElement !== searchInput) {
+        e.preventDefault();
+        searchInput.focus();
+      }
+    });
+  }
 }
 
 /* ---------------- SEARCH ---------------- */
@@ -224,6 +243,8 @@ function currentRoute() {
   if (parts[0] === "marches" && parts[1] === "create") return { name: "march-builder" };
   if (parts[0] === "marches" && parts[1]) return { name: "march-detail", id: parts[1] };
   if (parts[0] === "marches") return { name: "marches" };
+  if (parts[0] === "reference") return { name: "field-reference" };
+  if (parts[0] === "strategies" && parts[1]) return { name: "strategy-detail", id: parts[1] };
   return { name: "home" };
 }
 
@@ -234,6 +255,8 @@ function renderCurrentView() {
   else if (route.name === "marches") renderMarchList();
   else if (route.name === "march-detail") renderMarchDetail(route.id);
   else if (route.name === "march-builder") renderMarchBuilder();
+  else if (route.name === "field-reference") renderFieldReference();
+  else if (route.name === "strategy-detail") renderStrategyDetail(route.id);
   window.scrollTo(0, 0);
 }
 

@@ -57,17 +57,21 @@
   margin-bottom: var(--sp-5);
 }
 
+.gate-input-row {
+  position: relative;
+  margin-bottom: var(--sp-3);
+}
+
 .gate-modal-input {
   width: 100%;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: var(--r-md);
-  padding: 11px 14px;
+  padding: 11px 42px 11px 14px;
   color: var(--text-primary);
   font-size: var(--fs-sm);
   outline: none;
   transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
-  margin-bottom: var(--sp-3);
 }
 .gate-modal-input:focus {
   border-color: var(--rune-blue-dim);
@@ -77,6 +81,24 @@
   border-color: var(--status-danger);
   box-shadow: 0 0 0 3px rgba(192,90,90,0.12);
 }
+
+.gate-input-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 42px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s var(--ease);
+}
+.gate-input-toggle:hover { color: var(--gold-soft); }
+.gate-input-toggle svg { width: 17px; height: 17px; }
 
 .gate-modal-error {
   font-size: 12.5px;
